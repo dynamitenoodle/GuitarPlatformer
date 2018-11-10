@@ -18,8 +18,11 @@ public class Player : MonoBehaviour {
 
     // shooting
     public GameObject bulletPrefab;
+    public GameObject shockwavePrefab;
     int shootTimer;
-    public int shootTimerMax = 5;
+    int shootTimerMax;
+    public int fireTimerMax = 5;
+    public int shockwaveTimerMax = 30;
 
     // Use this for initialization
     void Start() {
@@ -58,7 +61,7 @@ public class Player : MonoBehaviour {
                 isSlide = false;
             }
         }
-        
+
         // Shooting
         if (GetBlueButton() && canShoot)
         {
@@ -67,8 +70,22 @@ public class Player : MonoBehaviour {
             newBullet.transform.localScale = bulletPrefab.transform.localScale;
             canShoot = false;
             shootTimer = 0;
+            shootTimerMax = fireTimerMax;
         }
 
+        // Shockwave
+        if (GetYellowButton() && canShoot)
+        {
+            GameObject newBullet = Instantiate(shockwavePrefab, transform);
+            newBullet.transform.parent = null;
+            newBullet.transform.localScale = shockwavePrefab.transform.localScale;
+            newBullet.transform.parent = transform;
+            canShoot = false;
+            shootTimer = 0;
+            shootTimerMax = shockwaveTimerMax;
+        }
+
+        // Projectile timer
         if (!canShoot)
         {
             shootTimer++;

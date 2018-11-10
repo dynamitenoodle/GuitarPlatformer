@@ -301,6 +301,22 @@ Prefab:
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114650214237195512, guid: 7769e4f7168b85c46ae8f09196419941,
+        type: 2}
+      propertyPath: shockwavePrefab
+      value: 
+      objectReference: {fileID: 1159256860543250, guid: 34bf281dc761cc04ebd5323d05ebb1b5,
+        type: 2}
+    - target: {fileID: 114650214237195512, guid: 7769e4f7168b85c46ae8f09196419941,
+        type: 2}
+      propertyPath: shockwaveTimerMax
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 50272671671860828, guid: 7769e4f7168b85c46ae8f09196419941,
+        type: 2}
+      propertyPath: m_Constraints
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7769e4f7168b85c46ae8f09196419941, type: 2}
   m_IsPrefabAsset: 0
