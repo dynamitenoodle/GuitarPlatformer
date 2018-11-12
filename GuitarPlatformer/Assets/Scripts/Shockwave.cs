@@ -24,12 +24,11 @@ public class Shockwave : MonoBehaviour {
         {
             Physics2D.IgnoreCollision(GetComponent<Collider2D>(), ground.GetComponent<Collider2D>());
         }
-    }
+	}
 
     // Update is called once per frame
     void Update()
     {
-
         if (spriteTimer % spriteTimerMax == 0)
         {
             if (spriteNum + 1 == spriteSheet.Count)

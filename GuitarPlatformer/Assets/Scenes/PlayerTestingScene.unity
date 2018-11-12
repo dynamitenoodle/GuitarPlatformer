@@ -310,7 +310,7 @@ Prefab:
     - target: {fileID: 114650214237195512, guid: 7769e4f7168b85c46ae8f09196419941,
         type: 2}
       propertyPath: shockwaveTimerMax
-      value: 30
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 50272671671860828, guid: 7769e4f7168b85c46ae8f09196419941,
         type: 2}

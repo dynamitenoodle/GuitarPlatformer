@@ -22,7 +22,7 @@ public class Player : MonoBehaviour {
     int shootTimer;
     int shootTimerMax;
     public int fireTimerMax = 5;
-    public int shockwaveTimerMax = 30;
+    public int shockwaveTimerMax = 60;
 
     // Use this for initialization
     void Start() {
