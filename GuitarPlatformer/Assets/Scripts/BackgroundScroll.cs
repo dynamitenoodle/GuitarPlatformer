@@ -16,7 +16,7 @@ public class BackgroundScroll : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
     {
-        transform.position -= new Vector3(.05f, 0, 0);
+        transform.position -= new Vector3(.1f, 0, 0);
 
         if (transform.position.x <= -.5f && !createdChild)
         {

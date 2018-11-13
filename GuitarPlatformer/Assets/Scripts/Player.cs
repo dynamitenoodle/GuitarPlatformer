@@ -38,6 +38,9 @@ public class Player : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
+        if (transform.position.x < -10f || transform.position.y < -5.0f)
+            transform.position = Vector3.zero;
+
         // Jumping
         if (GetGreenButton() && CheckAction())
         {
@@ -48,18 +51,17 @@ public class Player : MonoBehaviour {
         // Sliding
         if (GetRedButton() && CanSlide())
         {
-            slideTimer = 0;
+            
             isSlide = true;
             transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y / slideScale, transform.localScale.z);
         }
 
-        else if (!CanSlide())
+        else if (!GetRedButton()&&isSlide)
         {
-            if (slideTimer >= slideTimerMax && isSlide)
-            {
+           
                 transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y * slideScale, transform.localScale.z);
                 isSlide = false;
-            }
+            
         }
 
         // Shooting
@@ -98,7 +100,7 @@ public class Player : MonoBehaviour {
 
     #region InputMethods
     bool GetGreenButton() { return Input.GetButtonDown("Green"); }
-    bool GetRedButton() { return Input.GetButtonDown("Red"); }
+    bool GetRedButton() { return Input.GetButton("Red"); }
     bool GetYellowButton() { return Input.GetButtonDown("Yellow"); }
     bool GetBlueButton() { return Input.GetButtonDown("Blue"); }
     bool GetOrangeButton() { return Input.GetButtonDown("Orange"); }
@@ -112,8 +114,7 @@ public class Player : MonoBehaviour {
     /// <returns></returns>
     bool CanSlide()
     {
-        slideTimer++;
-        return CheckAction() && slideTimer >= slideTimerMax;
+        return CheckAction();
     }
 
     /// <summary>
