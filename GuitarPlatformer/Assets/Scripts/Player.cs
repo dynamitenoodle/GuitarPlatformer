@@ -7,15 +7,17 @@ public class Player : MonoBehaviour {
 
     // attributes
     //jumping
+    float prevStrum;
     bool inAir;
-    
+    public static float Timer;
     // sliding
     bool isSlide;
     bool canShoot;
     int slideTimer;
     public int slideTimerMax = 60;
+    public float bpm;
     float slideScale;
-
+    float strum;
     // shooting
     public GameObject bulletPrefab;
     public GameObject shockwavePrefab;
@@ -23,9 +25,16 @@ public class Player : MonoBehaviour {
     int shootTimerMax;
     public int fireTimerMax = 5;
     public int shockwaveTimerMax = 60;
+    /// <summary>
+    /// contains last 1s of strums
+    /// </summary>
+    public static List<float> StrumList = new List<float>();
 
     // Use this for initialization
     void Start() {
+        prevStrum = 0;
+        Timer = 0;
+        strum = 0;
         inAir = true;
         isSlide = false;
 
@@ -38,6 +47,35 @@ public class Player : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
+        Timer += Time.deltaTime;
+        prevStrum = strum;
+        if (GetStrum() > .1f|| GetStrum() < -.1f)
+        {
+            strum = 1;
+        }
+        else if(strum>0)
+        {
+            strum--;
+        }
+        if (strum > 0&&prevStrum == 0)
+        {
+            StrumList.Add(Timer);
+        }
+        
+        foreach (float item in StrumList.ToArray())
+        {
+            if ((Timer - item) > 1f)
+            {
+                StrumList.RemoveAt(StrumList.IndexOf(item));
+            }
+           
+        }
+        float velx = (StrumList.Count / (bpm / 60));
+
+        Vector2 v = GetComponent<Rigidbody2D>().velocity;
+        v.x = velx*2-2;
+        GetComponent<Rigidbody2D>().velocity = v;
+
         if (transform.position.x < -10f || transform.position.y < -5.0f)
             transform.position = Vector3.zero;
 
