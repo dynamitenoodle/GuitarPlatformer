@@ -2,9 +2,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+public enum Obstacles
+{
+    net,
+    stand,
+    highStand,
+    seaGull1,
+    seaGull2,
+    seaGull3,
+}
 public class Player : MonoBehaviour {
-
+    
+    public Dictionary<float, Obstacles> completed;
+    public Dictionary<float, Obstacles> ObstacleDictionary;
     // attributes
     //jumping
     float prevStrum;
@@ -32,6 +42,7 @@ public class Player : MonoBehaviour {
 
     // Use this for initialization
     void Start() {
+        ObstacleDictionary = new Dictionary<float, Obstacles>();
         prevStrum = 0;
         Timer = 0;
         strum = 0;
@@ -61,7 +72,33 @@ public class Player : MonoBehaviour {
         {
             StrumList.Add(Timer);
         }
-        
+        foreach (float key in ObstacleDictionary.Keys)
+        {
+            if (Timer < key + 1 && Timer > key - 1)//same second as the time for the obstacle
+            {
+                if (!completed.ContainsKey(key) && completed[key] != ObstacleDictionary[key])
+                {//have not instantiated this key value yet
+                    switch (ObstacleDictionary[key])
+                    {
+                        case Obstacles.net:
+                            break;
+                        case Obstacles.stand:
+                            break;
+                        case Obstacles.highStand:
+                            break;
+                        case Obstacles.seaGull1:
+                            break;
+                        case Obstacles.seaGull2:
+                            break;
+                        case Obstacles.seaGull3:
+                            break;
+                        default:
+                            break;
+                    }
+                    completed.Add(key, ObstacleDictionary[key]);
+                }
+            }
+        }
         foreach (float item in StrumList.ToArray())
         {
             if ((Timer - item) > 1f)
@@ -71,9 +108,9 @@ public class Player : MonoBehaviour {
            
         }
         float velx = (StrumList.Count / (bpm / 60));
-
+        
         Vector2 v = GetComponent<Rigidbody2D>().velocity;
-        v.x = velx*2-2;
+        v.x = velx*2-1;
         GetComponent<Rigidbody2D>().velocity = v;
 
         if (transform.position.x < -10f || transform.position.y < -5.0f)
