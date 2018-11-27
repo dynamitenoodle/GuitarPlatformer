@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 114650214237195512}
   - component: {fileID: 212074208009190952}
   - component: {fileID: 50272671671860828}
-  - component: {fileID: 61149601890025512}
+  - component: {fileID: 61882404955224336}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -52,7 +52,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1970651421663768}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.101, y: -0.024, z: 0}
+  m_LocalPosition: {x: 1.26, y: -0.024, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4958373657192682}
@@ -65,8 +65,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1730504391818644}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -2.19, z: 0}
-  m_LocalScale: {x: 4, y: 4, z: 1}
+  m_LocalPosition: {x: -2.57, y: -1.67, z: 0}
+  m_LocalScale: {x: 0.8, y: 0.8, z: 1}
   m_Children:
   - {fileID: 4358987242058806}
   m_Father: {fileID: 0}
@@ -91,8 +91,8 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
---- !u!61 &61149601890025512
+  m_Constraints: 4
+--- !u!61 &61882404955224336
 BoxCollider2D:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -104,18 +104,18 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0.21920538, y: -0.18789148}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.2, y: 0.23}
+    oldSize: {x: 5, y: 5}
     newSize: {x: 0.2, y: 0.23}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.2, y: 0.23}
+  m_Size: {x: 2.0563679, y: 2.9123182}
   m_EdgeRadius: 0
 --- !u!114 &114650214237195512
 MonoBehaviour:
@@ -129,9 +129,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slideTimerMax: 60
+  bpm: 240
   bulletPrefab: {fileID: 1573931835820732, guid: b21469acdb5b872489abf14b8cbd7dce,
     type: 2}
-  shootTimerMax: 5
+  shockwavePrefab: {fileID: 1159256860543250, guid: 34bf281dc761cc04ebd5323d05ebb1b5,
+    type: 2}
+  fireTimerMax: 5
+  shockwaveTimerMax: 50
 --- !u!212 &212074208009190952
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -166,8 +170,8 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: e3a39c720f5c5bb4fa67d826395ec461, type: 3}
+  m_SortingOrder: 4
+  m_Sprite: {fileID: 21300000, guid: b19951bf19d3a7146a54f7be0952ee16, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

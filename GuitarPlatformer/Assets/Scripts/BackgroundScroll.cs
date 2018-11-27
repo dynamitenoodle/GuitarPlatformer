@@ -6,6 +6,7 @@ public class BackgroundScroll : MonoBehaviour {
 
     Sprite bg;
     bool createdChild;
+	public float scrollSpeed = .1f, offScreen = 20f;
 
 	// Use this for initialization
 	void Start () {
@@ -16,19 +17,19 @@ public class BackgroundScroll : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
     {
-        transform.position -= new Vector3(.1f, 0, 0);
+        transform.position -= new Vector3(scrollSpeed, 0, 0);
 
-        if (transform.position.x <= -.5f && !createdChild)
+        if (transform.position.x <= offScreen && !createdChild)
         {
             GameObject newBg = Instantiate(gameObject, transform);
-            newBg.transform.parent = null;
-            newBg.transform.position = new Vector3(18f, 0, 0);
+            newBg.transform.parent = transform.parent;
+            newBg.transform.position = new Vector3(transform.position.x + bg.bounds.extents.x * 2 - .01f, transform.position.y, 0);
             newBg.transform.localScale = transform.localScale;
             newBg.name = gameObject.name;
             createdChild = true;
         }
 
-        else if (transform.position.x <= -15f)
+        else if (transform.position.x <= -offScreen)
             Destroy(gameObject);
 	}
 }
