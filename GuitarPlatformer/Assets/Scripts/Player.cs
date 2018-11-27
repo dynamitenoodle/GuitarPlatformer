@@ -92,51 +92,58 @@ public class Player : MonoBehaviour {
             }
             if (Timer%maxLength < key + 1 && Timer%maxLength > key - 1)//same second as the time for the obstacle
             {
+                float xSpawn = 10f;
                 if (!completed.ContainsKey(key)||completed.ContainsKey(key) && completed[key] != ObstacleDictionary[key])
                 {//have not instantiated this key value yet
                     GameObject temp;
                     switch (ObstacleDictionary[key])
                     {
                         case Obstacles.net:
-                            temp = Instantiate(cube, new Vector3(9, -3, 0), Quaternion.Euler(Vector3.zero));
+                            temp = Instantiate(cube, new Vector3(xSpawn, -1, 0), Quaternion.Euler(Vector3.zero));
                             temp.GetComponent<note>().bpm = bpm;
                             temp.GetComponent<note>().length = 1;
                             temp.GetComponent<note>().direction = new Vector3(-1, 0, 0);
                             completed.Add(key, ObstacleDictionary[key]);
                             break;
                         case Obstacles.stand:
-                            temp = Instantiate(cube, new Vector3(9, -2, 0), Quaternion.Euler(Vector3.zero));
+                            temp = Instantiate(cube, new Vector3(xSpawn, -1, 0), Quaternion.Euler(Vector3.zero));
                             temp.GetComponent<note>().bpm = bpm;
                             temp.GetComponent<note>().length = 4;
                             temp.GetComponent<note>().direction = new Vector3(-1, 0, 0);
                             completed.Add(key, ObstacleDictionary[key]);
                             break;
                         case Obstacles.highStand:
-                            temp = Instantiate(cube, new Vector3(9, 0, 0), Quaternion.Euler(Vector3.zero));
+                            temp = Instantiate(cube, new Vector3(xSpawn, 0, 0), Quaternion.Euler(Vector3.zero));
                             temp.GetComponent<note>().bpm = bpm;
                             temp.GetComponent<note>().length = 4;
                             temp.GetComponent<note>().direction = new Vector3(-1, 0, 0);
                             completed.Add(key, ObstacleDictionary[key]);
                             break;
                         case Obstacles.seaGull1:
-                            temp = Instantiate(cube, new Vector3(9, 4, 0), Quaternion.Euler(Vector3.zero));
+                            temp = Instantiate(cube, new Vector3(xSpawn, 4, 0), Quaternion.Euler(Vector3.zero));
                             temp.GetComponent<note>().bpm = bpm;
                             temp.GetComponent<note>().length = 1;
                             temp.GetComponent<note>().direction = (transform.position - new Vector3(9, 6, 0)).normalized;
+                            temp.AddComponent<Seagull>();
+                            temp.GetComponent<MeshRenderer>().material.color = Color.blue;
                             completed.Add(key, ObstacleDictionary[key]);
                             break;
                         case Obstacles.seaGull2:
                             temp = Instantiate(cube, new Vector3(7, 4, 0), Quaternion.Euler(Vector3.zero));
                             temp.GetComponent<note>().bpm = bpm;
                             temp.GetComponent<note>().length = 1;
-                            temp.GetComponent<note>().direction = (transform.position - new Vector3(9, 6, 0)).normalized;
+                            temp.GetComponent<note>().direction = (transform.position - new Vector3(7, 4, 0)).normalized;
+                            temp.AddComponent<Seagull>();
+                            temp.GetComponent<MeshRenderer>().material.color = Color.blue;
                             completed.Add(key, ObstacleDictionary[key]);
                             break;
                         case Obstacles.seaGull3:
                             temp = Instantiate(cube, new Vector3(5, 4, 0), Quaternion.Euler(Vector3.zero));
                             temp.GetComponent<note>().bpm = bpm;
                             temp.GetComponent<note>().length = 1;
-                            temp.GetComponent<note>().direction = (transform.position - new Vector3(9, 6, 0)).normalized;
+                            temp.GetComponent<note>().direction = (transform.position - new Vector3(5, 4, 0)).normalized;
+                            temp.AddComponent<Seagull>();
+                            temp.GetComponent<MeshRenderer>().material.color = Color.blue;
                             completed.Add(key, ObstacleDictionary[key]);
                             break;
                         default:
@@ -157,7 +164,7 @@ public class Player : MonoBehaviour {
         float velx = (StrumList.Count / (bpm / 60));
         
         Vector2 v = GetComponent<Rigidbody2D>().velocity;
-        v.x = velx*2-1;
+        v.x = velx*2-3;
         GetComponent<Rigidbody2D>().velocity = v;
 
         if (transform.position.x < -10f || transform.position.y < -5.0f)

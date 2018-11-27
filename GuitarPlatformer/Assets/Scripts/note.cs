@@ -15,7 +15,7 @@ public class note : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         transform.localScale = new Vector3(length, 1.3f, 1);
-        vel = direction*bpm/60*Time.deltaTime*1000;
+        vel = direction*bpm/60*Time.deltaTime*500;
         GetComponent<Rigidbody2D>().velocity = vel;
         if (!GetComponent<MeshRenderer>().isVisible)
         {
