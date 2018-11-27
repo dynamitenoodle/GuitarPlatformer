@@ -23,7 +23,7 @@ public class BackgroundScroll : MonoBehaviour {
         {
             GameObject newBg = Instantiate(gameObject, transform);
             newBg.transform.parent = transform.parent;
-            newBg.transform.position = new Vector3(transform.position.x + bg.bounds.extents.x * 2, transform.position.y, 0);
+            newBg.transform.position = new Vector3(transform.position.x + bg.bounds.extents.x * 2 - .01f, transform.position.y, 0);
             newBg.transform.localScale = transform.localScale;
             newBg.name = gameObject.name;
             createdChild = true;
