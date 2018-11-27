@@ -2,9 +2,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+public enum Obstacles
+{
+    net,
+    stand,
+    highStand,
+    seaGull1,
+    seaGull2,
+    seaGull3,
+}
 public class Player : MonoBehaviour {
-
+    GameObject cube;
+    public float maxLength;
+    public Dictionary<float, Obstacles> completed;
+    public Dictionary<float, Obstacles> ObstacleDictionary;
     // attributes
     //jumping
     float prevStrum;
@@ -32,6 +43,17 @@ public class Player : MonoBehaviour {
 
     // Use this for initialization
     void Start() {
+        ObstacleDictionary = new Dictionary<float, Obstacles>();
+        completed = new Dictionary<float, Obstacles>();
+        System.Random R = new System.Random();
+        for (int i = 0; i < maxLength/60*bpm; i++)
+        {
+            float time = (i / maxLength / 60 * bpm) * maxLength;
+            Obstacles entry = (Obstacles)R.Next(0, 5);
+            ObstacleDictionary.Add(time, entry);
+        }
+        cube = Resources.Load<GameObject>("Prefabs/cube");
+       
         prevStrum = 0;
         Timer = 0;
         strum = 0;
@@ -61,7 +83,69 @@ public class Player : MonoBehaviour {
         {
             StrumList.Add(Timer);
         }
-        
+        foreach (float key in ObstacleDictionary.Keys)
+        {
+            if (Timer - maxLength < .2f&&Timer - maxLength > 0f)
+            {
+                Timer = 0;
+                completed = new Dictionary<float, Obstacles>();
+            }
+            if (Timer%maxLength < key + 1 && Timer%maxLength > key - 1)//same second as the time for the obstacle
+            {
+                if (!completed.ContainsKey(key)||completed.ContainsKey(key) && completed[key] != ObstacleDictionary[key])
+                {//have not instantiated this key value yet
+                    GameObject temp;
+                    switch (ObstacleDictionary[key])
+                    {
+                        case Obstacles.net:
+                            temp = Instantiate(cube, new Vector3(9, -3, 0), Quaternion.Euler(Vector3.zero));
+                            temp.GetComponent<note>().bpm = bpm;
+                            temp.GetComponent<note>().length = 1;
+                            temp.GetComponent<note>().direction = new Vector3(-1, 0, 0);
+                            completed.Add(key, ObstacleDictionary[key]);
+                            break;
+                        case Obstacles.stand:
+                            temp = Instantiate(cube, new Vector3(9, -2, 0), Quaternion.Euler(Vector3.zero));
+                            temp.GetComponent<note>().bpm = bpm;
+                            temp.GetComponent<note>().length = 4;
+                            temp.GetComponent<note>().direction = new Vector3(-1, 0, 0);
+                            completed.Add(key, ObstacleDictionary[key]);
+                            break;
+                        case Obstacles.highStand:
+                            temp = Instantiate(cube, new Vector3(9, 0, 0), Quaternion.Euler(Vector3.zero));
+                            temp.GetComponent<note>().bpm = bpm;
+                            temp.GetComponent<note>().length = 4;
+                            temp.GetComponent<note>().direction = new Vector3(-1, 0, 0);
+                            completed.Add(key, ObstacleDictionary[key]);
+                            break;
+                        case Obstacles.seaGull1:
+                            temp = Instantiate(cube, new Vector3(9, 4, 0), Quaternion.Euler(Vector3.zero));
+                            temp.GetComponent<note>().bpm = bpm;
+                            temp.GetComponent<note>().length = 1;
+                            temp.GetComponent<note>().direction = (transform.position - new Vector3(9, 6, 0)).normalized;
+                            completed.Add(key, ObstacleDictionary[key]);
+                            break;
+                        case Obstacles.seaGull2:
+                            temp = Instantiate(cube, new Vector3(7, 4, 0), Quaternion.Euler(Vector3.zero));
+                            temp.GetComponent<note>().bpm = bpm;
+                            temp.GetComponent<note>().length = 1;
+                            temp.GetComponent<note>().direction = (transform.position - new Vector3(9, 6, 0)).normalized;
+                            completed.Add(key, ObstacleDictionary[key]);
+                            break;
+                        case Obstacles.seaGull3:
+                            temp = Instantiate(cube, new Vector3(5, 4, 0), Quaternion.Euler(Vector3.zero));
+                            temp.GetComponent<note>().bpm = bpm;
+                            temp.GetComponent<note>().length = 1;
+                            temp.GetComponent<note>().direction = (transform.position - new Vector3(9, 6, 0)).normalized;
+                            completed.Add(key, ObstacleDictionary[key]);
+                            break;
+                        default:
+                            break;
+                    }
+                    
+                }
+            }
+        }
         foreach (float item in StrumList.ToArray())
         {
             if ((Timer - item) > 1f)
@@ -71,9 +155,9 @@ public class Player : MonoBehaviour {
            
         }
         float velx = (StrumList.Count / (bpm / 60));
-
+        
         Vector2 v = GetComponent<Rigidbody2D>().velocity;
-        v.x = velx*2-2;
+        v.x = velx*2-1;
         GetComponent<Rigidbody2D>().velocity = v;
 
         if (transform.position.x < -10f || transform.position.y < -5.0f)
