@@ -159,7 +159,6 @@ public class Player : MonoBehaviour {
             {
                 StrumList.RemoveAt(StrumList.IndexOf(item));
             }
-           
         }
         float velx = (StrumList.Count / (bpm / 60));
         
@@ -180,17 +179,15 @@ public class Player : MonoBehaviour {
         // Sliding
         if (GetRedButton() && CanSlide())
         {
-            
+
             isSlide = true;
             transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y / slideScale, transform.localScale.z);
         }
 
-        else if (!GetRedButton()&&isSlide)
+        else if (!GetRedButton() && isSlide)
         {
-           
-                transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y * slideScale, transform.localScale.z);
-                isSlide = false;
-            
+            transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y * slideScale, transform.localScale.z);
+            isSlide = false;
         }
 
         // Shooting
@@ -210,7 +207,6 @@ public class Player : MonoBehaviour {
             GameObject newBullet = Instantiate(shockwavePrefab, transform);
             newBullet.transform.parent = null;
             newBullet.transform.localScale = shockwavePrefab.transform.localScale;
-            newBullet.transform.parent = transform;
             canShoot = false;
             shootTimer = 0;
             shootTimerMax = shockwaveTimerMax;
