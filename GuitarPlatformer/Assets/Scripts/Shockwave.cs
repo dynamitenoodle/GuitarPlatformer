@@ -29,6 +29,7 @@ public class Shockwave : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
+        transform.position = player.transform.position;
         if (spriteTimer % spriteTimerMax == 0)
         {
             if (spriteNum + 1 == spriteSheet.Count)
