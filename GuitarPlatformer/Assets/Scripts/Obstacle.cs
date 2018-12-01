@@ -25,5 +25,5 @@ public class Obstacle : MonoBehaviour {
         }
 	}
 
-    bool DestroyCheck(){ if (transform.position.x < deleteDistance) { return true; } return false;}
+    bool DestroyCheck(){ if (transform.position.x < -deleteDistance) { return true; } return false;}
 }

@@ -48,7 +48,7 @@ public class Shockwave : MonoBehaviour {
 
             if (spriteNum >= 5)
             {
-                spriteTimerMax += 5;
+                spriteTimerMax += 8;
             }
         }
 
