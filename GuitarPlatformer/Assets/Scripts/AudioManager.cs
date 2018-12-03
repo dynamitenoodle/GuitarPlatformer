@@ -14,7 +14,7 @@ public class AudioManager : MonoBehaviour
 		{
 			s.SetSource(gameObject.AddComponent<AudioSource>());
 		}
-		//PlaySound("Music");
+		PlaySound("Music");
 	}
 
 	// Update is called once per frame
