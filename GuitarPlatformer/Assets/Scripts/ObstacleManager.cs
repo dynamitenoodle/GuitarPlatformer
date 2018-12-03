@@ -50,7 +50,7 @@ public class ObstacleManager : MonoBehaviour {
             }
             if (Timer % maxLength < key + 1 && Timer % maxLength > key - 1)//same second as the time for the obstacle
             {
-                float xSpawn = 10f;
+                float xSpawn = 16f;
 
                 if (!completed.ContainsKey(key) || completed.ContainsKey(key) && completed[key] != ObstacleDictionary[key])
                 {//have not instantiated this key value yet
@@ -59,20 +59,14 @@ public class ObstacleManager : MonoBehaviour {
                     {
                         case Obstacles.net:
                             temp = Instantiate(net, new Vector3(xSpawn, net.transform.position.y, 0), Quaternion.Euler(Vector3.zero));
-                            temp.GetComponent<Obstacle>().bpm = bpm;
-                            temp.GetComponent<Obstacle>().direction = new Vector3(-1, 0, 0);
                             completed.Add(key, ObstacleDictionary[key]);
                             break;
                         case Obstacles.umbrella:
                             temp = Instantiate(umbrella, new Vector3(xSpawn, umbrella.transform.position.y, 0), Quaternion.Euler(Vector3.zero));
-                            temp.GetComponent<Obstacle>().bpm = bpm;
-                            temp.GetComponent<Obstacle>().direction = new Vector3(-1, 0, 0);
                             completed.Add(key, ObstacleDictionary[key]);
                             break;
                         case Obstacles.seaGull:
                             temp = Instantiate(seagull, new Vector3(xSpawn, seagull.transform.position.y, 0), Quaternion.Euler(Vector3.zero));
-                            temp.GetComponent<Obstacle>().bpm = bpm;
-                            temp.GetComponent<Obstacle>().direction = (player.transform.position - temp.transform.position).normalized;
                             completed.Add(key, ObstacleDictionary[key]);
                             break;
                         default:
