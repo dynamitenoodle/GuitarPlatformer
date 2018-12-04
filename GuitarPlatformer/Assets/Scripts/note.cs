@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class note : MonoBehaviour {
     public float length;
-    public float bpm;
+    public float height = 1.3f;
+	public float bpm;
     Vector3 vel;
     public Vector3 direction;
 	// Use this for initialization
@@ -14,12 +15,16 @@ public class note : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        transform.localScale = new Vector3(length, 1.3f, 1);
-        vel = direction*bpm/60*Time.deltaTime*1000;
+		if (transform.localScale.x != length && transform.localScale.y != height)
+			transform.localScale = new Vector3(length, height, 1);
+
+        vel = direction*bpm/60*Time.deltaTime*500;
         GetComponent<Rigidbody2D>().velocity = vel;
-        if (!GetComponent<MeshRenderer>().isVisible)
+		/*
+        if (!GetComponent<Renderer>().isVisible)
         {
             Destroy(this.gameObject);
         }
+		*/
 	}
 }
