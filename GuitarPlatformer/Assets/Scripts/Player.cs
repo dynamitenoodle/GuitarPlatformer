@@ -193,13 +193,17 @@ public class Player : MonoBehaviour {
 				StrumList.RemoveAt(StrumList.IndexOf(item));
 			}
 		}
-		float velx = (StrumList.Count / (bpm / 60));
+		float velx = (StrumList.Count/4f / (bpm / 60));
 
-		Vector2 v = GetComponent<Rigidbody2D>().velocity;
+        /*Vector2 v = GetComponent<Rigidbody2D>().velocity;
 		v.x = velx * 2 - 3;
-		GetComponent<Rigidbody2D>().velocity = v;
-
-		if (transform.position.x < -10f || transform.position.y < -5.0f)
+		GetComponent<Rigidbody2D>().velocity = v;*/
+        float ideal = Screen.width * velx - .5f * Screen.width;
+        Vector2 v = GetComponent<Rigidbody2D>().velocity;
+        
+        v.x = Mathf.Clamp(ideal - transform.position.x, -3f,3f);
+        GetComponent<Rigidbody2D>().velocity = v;
+        if (transform.position.x < -10f || transform.position.y < -5.0f)
 			transform.position = Vector3.zero;
 	}
 

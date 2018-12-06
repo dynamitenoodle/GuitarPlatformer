@@ -11,7 +11,7 @@ public class ObstacleManager : MonoBehaviour {
     }
     // attributes
     GameObject player, seagull, net, umbrella;
-
+    float maxPlusTotal = 0;
     public Dictionary<float, Obstacles> completed;
     public Dictionary<float, Obstacles> ObstacleDictionary;
     float bpm;
@@ -20,6 +20,7 @@ public class ObstacleManager : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+        maxPlusTotal = maxLength;
         player = GameObject.FindGameObjectWithTag("Player");
         bpm = player.GetComponent<Player>().bpm;
         Timer = player.GetComponent<Player>().Timer;
@@ -43,12 +44,12 @@ public class ObstacleManager : MonoBehaviour {
         Timer = player.GetComponent<Player>().Timer;
         foreach (float key in ObstacleDictionary.Keys)
         {
-            if (Timer - maxLength < .2f && Timer - maxLength > 0f)
+            if (Timer - maxPlusTotal < .2f && Timer - maxPlusTotal > 0f)
             {
-                Timer = 0;
+                maxPlusTotal = Timer + maxLength;
                 completed = new Dictionary<float, Obstacles>();
             }
-            if (Timer % maxLength < key + 1 && Timer % maxLength > key - 1)//same second as the time for the obstacle
+            if (Timer % maxPlusTotal < key + 1 && Timer % maxPlusTotal > key - 1)//same second as the time for the obstacle
             {
                 float xSpawn = 16f;
 
