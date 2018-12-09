@@ -24,11 +24,13 @@ public class Shockwave : MonoBehaviour {
         {
             Physics2D.IgnoreCollision(GetComponent<Collider2D>(), ground.GetComponent<Collider2D>());
         }
+        GetComponent<Collider2D>().enabled = false;
 	}
 
     // Update is called once per frame
     void Update()
     {
+        transform.position = player.transform.position;
         if (spriteTimer % spriteTimerMax == 0)
         {
             if (spriteNum + 1 == spriteSheet.Count)
@@ -42,12 +44,13 @@ public class Shockwave : MonoBehaviour {
 
             if (spriteNum == 4)
             {
+            GetComponent<Collider2D>().enabled = true;
                 spriteTimerMax += 4;
             }
 
             if (spriteNum >= 5)
             {
-                spriteTimerMax += 5;
+                spriteTimerMax += 8;
             }
         }
 
