@@ -209,7 +209,7 @@ public class Player : MonoBehaviour {
         }
         else
         {
-            bps = -.5f;
+            bps = 1f/-.8f;
         }
 		float posx = (bps / (bpm / 60));
         Vector3 targetpos = new Vector2(Screen.width * posx, transform.position.y);
