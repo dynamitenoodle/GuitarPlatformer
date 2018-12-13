@@ -185,7 +185,10 @@ public class Player : MonoBehaviour {
 		{
 			StrumList.Add(Timer);
 		}
-		
+        if (StrumList.Count > 2)
+        {
+            StrumList.RemoveAt((StrumList.Count - 1));
+        }
 		foreach (float item in StrumList.ToArray())
 		{
 			if ((Timer - item) > 1f)
@@ -193,11 +196,28 @@ public class Player : MonoBehaviour {
 				StrumList.RemoveAt(StrumList.IndexOf(item));
 			}
 		}
-		float velx = (StrumList.Count / (bpm / 60));
+        float bps = 0;
+        if (StrumList.Count > 1)
+        {
+            float gap = Mathf.Abs(StrumList[0] - StrumList[1]);
+            bps = 1f / gap;
+        }
+        else if (StrumList.Count > 0)
+        {
+            float gap = Mathf.Abs(StrumList[0] - StrumList[1]);
+            bps = 1f / gap;
+        }
+        else
+        {
+            bps = -.5;
+        }
+		float posx = (bps / (bpm / 60));
+        Vector3 targetpos = new Vector2(Screen.width * posx, transform.position.y);
+		Vector3 v = GetComponent<Rigidbody2D>().velocity;
+        float maxspeed = 5 * bps;
+        v = (targetpos - transform.position).normalized * Mathf.Clamp((targetpos - transform.position).magnitude, 0, maxspeed);
 
-		Vector2 v = GetComponent<Rigidbody2D>().velocity;
-		v.x = velx * 2 - 3;
-		GetComponent<Rigidbody2D>().velocity = v;
+        GetComponent<Rigidbody2D>().velocity = v;
 
 		if (transform.position.x < -10f || transform.position.y < -5.0f)
 			transform.position = Vector3.zero;
