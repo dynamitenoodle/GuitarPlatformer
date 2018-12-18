@@ -239,7 +239,7 @@ public class Player : MonoBehaviour {
 		if (transform.position.x < -10f || transform.position.y < -5.0f)
         {
             transform.position = Vector3.zero;
-            GameObject.Find("UI Canvas").transform.GetChild(0).GetComponent<ScoreMover>().ResetScore();
+            TakeDamage();
         }
 			
 	}
