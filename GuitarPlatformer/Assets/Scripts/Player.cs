@@ -13,7 +13,6 @@ public class Player : MonoBehaviour {
 
 	// strumming
     public float bpm;
-    float slideScale;
     float strum;
 	float prevStrum;
     [HideInInspector]
@@ -37,6 +36,7 @@ public class Player : MonoBehaviour {
     [SerializeField]
 	[Range(15f, 60f)]
     float animTimerMax = 30f;
+	GameObject slideBox;
 
     // Damage and Health stuff
     int health = 100;
@@ -60,10 +60,10 @@ public class Player : MonoBehaviour {
         inAir = true;
         isSlide = false;
 
-        slideScale = 1.5f;
-
         shootTimer = 0;
         GetComponent<SpriteRenderer>().sprite = runSprites[spriteIndex];
+
+		slideBox = transform.GetChild(1).gameObject;
     }
 
     // Update is called once per frame
@@ -80,18 +80,23 @@ public class Player : MonoBehaviour {
         }
 
         // Sliding
-        if (GetRedButton() && CanSlide())
+        if ((GetRedButton() || Input.GetKeyDown("space")) && CanSlide())
         {
+			//transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y / slideScale, transform.localScale.z);
+			GetComponent<SpriteRenderer>().enabled = false;
+			GetComponent<BoxCollider2D>().enabled = true;
+			slideBox.SetActive(true);
+			isSlide = true;
+		}
 
-            isSlide = true;
-            transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y / slideScale, transform.localScale.z);
-        }
-
-        else if (!GetRedButton() && isSlide)
+		else if ((!GetRedButton() && !Input.GetKey("space")) && isSlide)
         {
-            transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y * slideScale, transform.localScale.z);
-            isSlide = false;
-        }
+			//transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y * slideScale, transform.localScale.z);
+			GetComponent<SpriteRenderer>().enabled = true;
+			transform.rotation = Quaternion.identity;
+			slideBox.SetActive(false);
+			isSlide = false;
+		}
 
         // Shooting
         if (GetBlueButton() && canShoot)
@@ -239,35 +244,38 @@ public class Player : MonoBehaviour {
 		if (transform.position.x < -10f || transform.position.y < -5.0f)
         {
             transform.position = Vector3.zero;
-            GameObject.Find("UI Canvas").transform.GetChild(0).GetComponent<ScoreMover>().ResetScore();
+            GameObject.Find("UI Canvas").transform.GetChild(1).GetComponent<ScoreMover>().ResetScore();
         }
 			
 	}
 
     void AnimationTick()
     {
-        animTimer += (Time.deltaTime * 100f);
-        float curVel = GetComponent<Rigidbody2D>().velocity.x;
-        float max = 0; // temporary max value for ease of animation
+		if (!isSlide)
+		{
+			animTimer += (Time.deltaTime * 100f);
+			float curVel = GetComponent<Rigidbody2D>().velocity.x;
+			float max = 0; // temporary max value for ease of animation
 
-        if (curVel == 0)
-            max = animTimerMax;
-        else if(curVel > 0)
-            max = animTimerMax / Math.Abs(curVel);
-        else if (curVel < 0)
-            max = animTimerMax * Math.Abs(curVel);
+			if (curVel == 0)
+				max = animTimerMax;
+			else if (curVel > 0)
+				max = animTimerMax / Math.Abs(curVel);
+			else if (curVel < 0)
+				max = animTimerMax * Math.Abs(curVel);
 
-        // should we move over to the next animation frame
-        if (animTimer > max)
-        {
-            animTimer = 0;
-            spriteIndex++;
-            if (spriteIndex >= runSprites.Count)
-                spriteIndex = 0;
+			// should we move over to the next animation frame
+			if (animTimer > max)
+			{
+				animTimer = 0;
+				spriteIndex++;
+				if (spriteIndex >= runSprites.Count)
+					spriteIndex = 0;
 
-            GetComponent<SpriteRenderer>().enabled = true;
-            GetComponent<SpriteRenderer>().sprite = runSprites[spriteIndex];
-        }
+				GetComponent<SpriteRenderer>().enabled = true;
+				GetComponent<SpriteRenderer>().sprite = runSprites[spriteIndex];
+			}
+		}
     }
 
     public void TakeDamage()
@@ -285,7 +293,7 @@ public class Player : MonoBehaviour {
         {
             UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex);
         }
-        GameObject.Find("UI Canvas").transform.GetChild(1).GetComponent<UnityEngine.UI.Text>().text = "Health : "+health;
+        GameObject.Find("UI Canvas").transform.GetChild(1).GetComponent<UnityEngine.UI.Text>().text = "Health : " + health;
         // if invulerable
         if (invul)
         {
@@ -295,19 +303,38 @@ public class Player : MonoBehaviour {
                 GetComponent<Rigidbody2D>().velocity = new Vector3(-4.0f, GetComponent<Rigidbody2D>().velocity.y, 0);
             }
 
-            // flicker the player
-            if (invulTimer % 2 == 1)
-                GetComponent<SpriteRenderer>().enabled = false;
-            else
-                GetComponent<SpriteRenderer>().enabled = true;
+			if (!isSlide)
+			{
+				// flicker the player
+				if (invulTimer % 2 == 1)
+					GetComponent<SpriteRenderer>().enabled = false;
+				else
+					GetComponent<SpriteRenderer>().enabled = true;
 
-            // if we need to reset the hit thingy
-            if (invulTimer > invulTimerMax)
-            {
-                GetComponent<SpriteRenderer>().enabled = true;
-                invulTimer = 0;
-                invul = false;
-            }
+				// if we need to reset the hit thingy
+				if (invulTimer > invulTimerMax)
+				{
+					GetComponent<SpriteRenderer>().enabled = true;
+					invulTimer = 0;
+					invul = false;
+				}
+			}
+			else
+			{
+				// flicker the player
+				if (invulTimer % 2 == 1)
+					slideBox.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().enabled = false;
+				else
+					slideBox.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().enabled = true;
+
+				// if we need to reset the hit thingy
+				if (invulTimer > invulTimerMax)
+				{
+					slideBox.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().enabled = true;
+					invulTimer = 0;
+					invul = false;
+				}
+			}
         }
     }
 }

@@ -7,10 +7,12 @@ public class ObstacleManager : MonoBehaviour {
     {
         net,
         umbrella,
-        seaGull
+        seaGull,
+		sandcastle,
+		child
     }
     // attributes
-    GameObject player, seagull, net, umbrella;
+    GameObject player, seagull, net, umbrella, sandcastle, child;
 
     public Dictionary<float, Obstacles> completed;
     public Dictionary<float, Obstacles> ObstacleDictionary;
@@ -36,7 +38,9 @@ public class ObstacleManager : MonoBehaviour {
         seagull = Resources.Load<GameObject>("Prefabs/seagull");
         net = Resources.Load<GameObject>("Prefabs/net");
         umbrella = Resources.Load<GameObject>("Prefabs/umbrella");
-    }
+        sandcastle = Resources.Load<GameObject>("Prefabs/sandcastle");
+        child = Resources.Load<GameObject>("Prefabs/child");
+	}
 
     // Update is called once per frame
     void Update () {
@@ -65,11 +69,19 @@ public class ObstacleManager : MonoBehaviour {
                             temp = Instantiate(umbrella, new Vector3(xSpawn, umbrella.transform.position.y, 0), Quaternion.Euler(Vector3.zero));
                             completed.Add(key, ObstacleDictionary[key]);
                             break;
-                        case Obstacles.seaGull:
-                            temp = Instantiate(seagull, new Vector3(xSpawn, seagull.transform.position.y, 0), Quaternion.Euler(Vector3.zero));
-                            completed.Add(key, ObstacleDictionary[key]);
-                            break;
-                        default:
+						case Obstacles.seaGull:
+							temp = Instantiate(seagull, new Vector3(xSpawn, seagull.transform.position.y, 0), Quaternion.Euler(Vector3.zero));
+							completed.Add(key, ObstacleDictionary[key]);
+							break;
+						case Obstacles.sandcastle:
+							temp = Instantiate(sandcastle, new Vector3(xSpawn, sandcastle.transform.position.y, 0), Quaternion.Euler(Vector3.zero));
+							completed.Add(key, ObstacleDictionary[key]);
+							break;
+						case Obstacles.child:
+							temp = Instantiate(child, new Vector3(xSpawn, child.transform.position.y, 0), Quaternion.Euler(Vector3.zero));
+							completed.Add(key, ObstacleDictionary[key]);
+							break;
+						default:
                             break;
                     }
 
