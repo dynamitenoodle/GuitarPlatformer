@@ -6,7 +6,6 @@ public class Player : MonoBehaviour {
     #region Attributes
     //jumping
     bool inAir;
-
     // sliding
     bool isSlide;
     bool canShoot;
@@ -40,7 +39,7 @@ public class Player : MonoBehaviour {
     float animTimerMax = 30f;
 
     // Damage and Health stuff
-    int health = 10;
+    int health = 100;
     bool invul = false;
     float invulTimer;
     [SerializeField]
@@ -276,12 +275,17 @@ public class Player : MonoBehaviour {
         if (!invul)
         {
             invul = true;
-            health--;
+            health-=10;
         }
     }
 
     void HealthTick()
     {
+        if (health <= 0)
+        {
+            UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex);
+        }
+        GameObject.Find("UI Canvas").transform.GetChild(1).GetComponent<UnityEngine.UI.Text>().text = "Health : "+health;
         // if invulerable
         if (invul)
         {

@@ -11,7 +11,6 @@ public class ScoreMover : MonoBehaviour {
     private UnityEngine.UI.Text text;
     private int score;
     private int incr;
-
 	void Start () {
         text_position = this.GetComponent<RectTransform>();
         text = this.GetComponent<UnityEngine.UI.Text>();
